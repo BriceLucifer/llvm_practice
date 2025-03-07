@@ -95,6 +95,14 @@ class FunctionDeclAST {
     FunctionDeclAST(const std::string &name, const std::vector<std::string> &args) : Func_name(name), Arguments(args) {};
 };
 
+// 函数定义的AST类
+class FunctionDefnAST {
+    FunctionDeclAST *Func_Decl;
+    BaseAST* Body;
+    public:
+    FunctionDefnAST(FunctionDeclAST *proto, BaseAST *body) : Func_Decl(proto), Body(body) {};
+};
+
 // 函数定义的AST类定义
 class FunctionCallAST : public BaseAST{
     std::string Function_Callee;
@@ -102,6 +110,54 @@ class FunctionCallAST : public BaseAST{
     public:
     FunctionCallAST(const std::string &callee, std::vector<BaseAST*> &args) : Function_Callee(callee), Function_Arguements(args) {};
 };
+
+
+
+static BaseAST *numeric_parser() {
+    BaseAST *Result = new NumericAST(Numeric_Val);
+    next_token();
+    return Result;
+}
+
+static BaseAST* expression_parser() ;
+
+static BaseAST* identfier_parser() {
+    std::string IdName = Identifer_string;
+
+    next_token();
+
+    if (Current_token != '(') 
+    return new VariableAST(IdName);
+
+    next_token();
+
+    std::vector<BaseAST*> Args;
+
+    if (Current_token != ')') {
+        while (1) {
+            BaseAST* Arg = expression_parser();
+            if (!Arg) return 0;
+
+            Args.push_back(Arg);
+            
+            if (Current_token == ')') break;
+
+            if (Current_token != ',')
+            return 0;
+            next_token();
+        }
+    }
+
+    next_token();
+
+    return new FunctionCallAST(IdName, Args);
+}
+
+static BaseAST* expression_parser() {
+    BaseAST *LHS = Base_Parser();
+    if (!LHS) return 0;
+    return binary_op_parser(0, LHS);
+}
 
 static BaseAST* Base_Parser() {
     switch (Current_token) {
@@ -111,3 +167,37 @@ static BaseAST* Base_Parser() {
         case '(' : return paran_parser();
     }
 }
+
+static FunctionDeclAST * func_decl_parser() {
+    if (Current_token != IDENTIFIER_TOKEN) 
+    return 0;
+
+    std::string FnName = Identifer_string;
+    next_token();
+
+    if(Current_token != '(')
+    return 0;
+
+    std::vector<std::string> Function_Argument_Names;
+    while (next_token() == IDENTIFIER_TOKEN) 
+    Function_Argument_Names.push_back(Identifer_string);
+    if (Current_token != ')')
+    return 0;
+
+    next_token();
+
+    return new FunctionDeclAST(FnName, Function_Argument_Names);
+}
+
+static FunctionDefnAST *func_defn_parser() {
+    next_token();
+    FunctionDeclAST *Decl = func_decl_parser();
+    if (Decl == 0) return 0;
+
+    if (BaseAST* Body = expression_parser())
+    return new FunctionDefnAST(Decl, Body);
+    return 0;
+}
+
+
+
