@@ -1,0 +1,1 @@
+cmake-build-debug/** filter=lfs diff=lfs merge=lfs -text
