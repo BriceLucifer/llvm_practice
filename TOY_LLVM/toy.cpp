@@ -58,5 +58,25 @@ namespace
         BinaryAST(std::string op, BaseAST *lhs, BaseAST *rhs) : Bin_Operator(op), LHS(lhs), RHS(rhs) {};
         virtual llvm::Value *Codegen();
     };
+
+    class FunctionCallAST : public BaseAST
+    {
+        std::string Function_Callee;
+        std::vector<BaseAST*> Function_Arguments;
+
+    public:
+        FunctionCallAST(const std::string &callee, std::vector<BaseAST*> &args) : Function_Callee(callee), Function_Arguments(args) {}
+        virtual llvm::Value *Codegen();
+    };
+
+    class FunctionDeclAST
+    {
+        std::string Func_Name;
+        std::vector<std::string> Arguments;
+
+    public:
+        FunctionDeclAST(const std::string &name, const std::vector<std::string> &args) : Func_Name(name), Arguments(args) {};
+        llvm::Function *Codegen();
+    };
 }
 

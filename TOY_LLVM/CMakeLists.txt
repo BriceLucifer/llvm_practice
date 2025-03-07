@@ -9,7 +9,6 @@ add_definitions(${LLVM_DEFINITIONS})
 
 llvm_map_components_to_libnames(llvm_libs core support)
 
-add_executable(TOY_LLVM main.cpp
-        toy.h
+add_executable(TOY_LLVM
         toy.cpp)
 target_link_libraries(TOY_LLVM ${llvm_libs})
