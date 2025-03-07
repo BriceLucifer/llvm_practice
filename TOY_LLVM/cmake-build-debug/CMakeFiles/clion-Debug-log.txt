@@ -1,0 +1,5 @@
+C:\Users\23766\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=C:/Users/23766/AppData/Local/Programs/CLion/bin/ninja/win/x64/ninja.exe "-DLLVM_DIR=C:/Program Files/LLVM/lib/cmake/llvm" -G Ninja -S C:\Users\23766\Desktop\LLVM-cookbook\TOY_LLVM -B C:\Users\23766\Desktop\LLVM-cookbook\TOY_LLVM\cmake-build-debug
+-- Could NOT find LibXml2 (missing: LIBXML2_LIBRARY LIBXML2_INCLUDE_DIR) 
+-- Configuring done (0.2s)
+-- Generating done (0.0s)
+-- Build files have been written to: C:/Users/23766/Desktop/LLVM-cookbook/TOY_LLVM/cmake-build-debug

@@ -1,0 +1,7 @@
+C:/Users/23766/Desktop/LLVM-cookbook/TOY_LLVM/cmake-build-debug/CMakeFiles/intrinsics_gen.dir
+C:/Users/23766/Desktop/LLVM-cookbook/TOY_LLVM/cmake-build-debug/CMakeFiles/omp_gen.dir
+C:/Users/23766/Desktop/LLVM-cookbook/TOY_LLVM/cmake-build-debug/CMakeFiles/acc_gen.dir
+C:/Users/23766/Desktop/LLVM-cookbook/TOY_LLVM/cmake-build-debug/CMakeFiles/RISCVTargetParserTableGen.dir
+C:/Users/23766/Desktop/LLVM-cookbook/TOY_LLVM/cmake-build-debug/CMakeFiles/TOY_LLVM.dir
+C:/Users/23766/Desktop/LLVM-cookbook/TOY_LLVM/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/23766/Desktop/LLVM-cookbook/TOY_LLVM/cmake-build-debug/CMakeFiles/rebuild_cache.dir

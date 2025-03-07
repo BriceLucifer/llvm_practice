@@ -1,6 +1,0 @@
-[
-{
-  "directory": "C:\\Users\\23766\\Desktop\\LLVM-cookbook\\TOY",
-  "arguments": ["clang++.exe", "-c", "-Qunused-arguments", "-m64", "--target=x86_64-windows-msvc", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-O3", "-fexceptions", "-fcxx-exceptions", "-DNDEBUG", "-o", "build\\.objs\\TOY\\windows\\x64\\release\\src\\toy.cpp.obj", "src\\toy.cpp"],
-  "file": "src\\toy.cpp"
-}]
