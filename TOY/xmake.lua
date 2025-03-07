@@ -1,8 +1,10 @@
 add_rules("mode.debug", "mode.release")
+add_requires("llvm")
 
 target("TOY")
     set_kind("binary")
     add_files("src/*.cpp")
+    add_packages("llvm")
 
 --
 -- If you want to known more usage about xmake, please see https://xmake.io

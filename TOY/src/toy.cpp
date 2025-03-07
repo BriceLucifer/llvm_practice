@@ -1,7 +1,16 @@
 #include <cctype>
 #include <cstdio>
+#include <ctype.h>
+#include <map>
 #include <string>
 #include <vector>
+
+
+#include <llvm/IR/DerivedTypes.h>
+#include <llvm/IR/IRBuilder.h>
+#include <llvm/IR/LLVMContext.h>
+#include <llvm/IR/Module.h>
+#include <llvm/IR/Verifier.h>
 
 enum Token_Type {
     EOF_TOKEN = 0,
@@ -22,6 +31,26 @@ FILE *file;
 
 // 持有当前的token 来自词法分析器
 static int Current_token;
+
+// 存储运算符优先级
+static std::map<char, int>Operator_Precedence;
+
+static void init_precedence() {
+    Operator_Precedence['-'] = 1;
+    Operator_Precedence['+'] = 2;
+    Operator_Precedence['/'] = 3;
+    Operator_Precedence['*'] = 4;
+}
+
+// 辅助返回已经定义的二元运算符的优先级
+static int getBinOpPrecedence() {
+    if(!isascii(Current_token))
+    return -1;
+
+    int TokPrec = Operator_Precedence[Current_token];
+    if (TokPrec <= 0) return -1;
+    return TokPrec;
+}
 
 static int get_token() {
     static int LastChar = ' ';
@@ -111,9 +140,30 @@ class FunctionCallAST : public BaseAST{
     FunctionCallAST(const std::string &callee, std::vector<BaseAST*> &args) : Function_Callee(callee), Function_Arguements(args) {};
 };
 
+// 二元运算符parser
+static BaseAST* binary_op_parser(int Old_Prec, BaseAST *LHS) {
+    while (1) {
+        int Operator_Prec = getBinOpPrecedence();
+        if(Operator_Prec < Old_Prec)
+            return LHS;
+        
+        int BinOp = Current_token;
+        next_token();
 
+        BaseAST* RHS = Base_Parser();
+        if(!RHS) return 0;
 
-static BaseAST *numeric_parser() {
+        int Next_Prec = getBinOpPrecedence();
+        if (Operator_Prec < Next_Prec) {
+            RHS = binary_op_parser(Operator_Prec + 1, RHS);
+            if (RHS == 0) return 0;
+        }
+        
+        LHS = new BinaryAST(std::to_string(BinOp), LHS, RHS);
+    }
+}
+
+static BaseAST* numeric_parser() {
     BaseAST *Result = new NumericAST(Numeric_Val);
     next_token();
     return Result;
@@ -121,13 +171,25 @@ static BaseAST *numeric_parser() {
 
 static BaseAST* expression_parser() ;
 
+static BaseAST* paran_parser() {
+    next_token();
+    BaseAST* V = expression_parser();
+
+    if (!V) return 0;
+
+    if (Current_token != ')')
+        return 0;
+
+    return V;
+}
+
 static BaseAST* identfier_parser() {
     std::string IdName = Identifer_string;
 
     next_token();
 
     if (Current_token != '(') 
-    return new VariableAST(IdName);
+        return new VariableAST(IdName);
 
     next_token();
 
@@ -143,7 +205,7 @@ static BaseAST* identfier_parser() {
             if (Current_token == ')') break;
 
             if (Current_token != ',')
-            return 0;
+                return 0;
             next_token();
         }
     }
@@ -170,19 +232,19 @@ static BaseAST* Base_Parser() {
 
 static FunctionDeclAST * func_decl_parser() {
     if (Current_token != IDENTIFIER_TOKEN) 
-    return 0;
+        return 0;
 
     std::string FnName = Identifer_string;
     next_token();
 
     if(Current_token != '(')
-    return 0;
+        return 0;
 
     std::vector<std::string> Function_Argument_Names;
     while (next_token() == IDENTIFIER_TOKEN) 
-    Function_Argument_Names.push_back(Identifer_string);
+        Function_Argument_Names.push_back(Identifer_string);
     if (Current_token != ')')
-    return 0;
+        return 0;
 
     next_token();
 
@@ -195,9 +257,55 @@ static FunctionDefnAST *func_defn_parser() {
     if (Decl == 0) return 0;
 
     if (BaseAST* Body = expression_parser())
-    return new FunctionDefnAST(Decl, Body);
+        return new FunctionDefnAST(Decl, Body);
     return 0;
 }
 
+// 高层函数
+static void HandleDefn() {
+    if (FunctionDefnAST *F = func_defn_parser()) {
+        if (Function* LF = F->Codegen()) {
 
+        }
+    } else {
+        next_token();
+    }
+}
 
+static void HandleTopExpression() {
+    if (FunctionDefnAST *F = top_level_parser()) {
+        if (Function *LF = F->Codegen()) {
+
+        }
+    } else {
+        next_token();
+    }
+}
+
+static void Driver() {
+    while (1) {
+        switch (Current_token) {
+            case EOF_TOKEN: return;
+            case ';': next_token(); break;
+            case DEF_TOKEM: HandleDefn(); break;
+            default: HandleTopExpression(); break;
+        }
+    }
+}
+
+using namespace llvm ;
+
+int main(int argc, char* argv[]) {
+    LLVMContext &Context = getGlobalContext();
+    init_precedence();
+    file = fopen(argv[1], "r");
+    if(file == 0) {
+        printf("Could not open file\n");
+    }
+
+    next_token();
+    Module_Ob = new Module("my compiler", Context);
+    Driver();
+    Module_Ob->dump();
+    return 0;
+}
