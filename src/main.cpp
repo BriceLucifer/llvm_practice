@@ -2,6 +2,7 @@
 #include <mlir/IR/MLIRContext.h>
 #include <mlir/IR/Builders.h>  // 新增的头文件
 #include <llvm/Support/raw_ostream.h>
+#include "toydialect.h"
 
 using namespace mlir;
 
