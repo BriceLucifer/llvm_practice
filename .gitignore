@@ -1,0 +1,69 @@
+# --- 构建系统生成文件 ---
+# CMake 相关
+/build*/
+/CMakeCache.txt
+/CMakeFiles/
+/cmake_install.cmake
+/Makefile
+/CTestTestfile.cmake
+/CMakeSettings.json
+*.cmake
+
+# Ninja 构建系统
+/.ninja_deps
+/.ninja_log
+/build.ninja
+
+# --- 二进制和编译产物 ---
+*.o
+*.a
+*.so
+*.dll
+*.exe
+*.out
+*.ilk
+*.pdb
+
+# --- IDE 配置文件 ---
+# CLion
+/.idea/
+/cmake-build-*/
+
+# VS Code
+/.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Xcode
+*.xcodeproj/
+*.xcworkspace/
+xcuserdata/
+
+# --- 临时文件 ---
+*.swp
+*.swo
+*~
+*.tmp
+*.user
+.DS_Store
+Thumbs.db
+
+# --- 测试相关 ---
+/Testing/
+/test-results.xml
+
+# --- LLVM/MLIR 特殊文件 ---
+*.mlir.bc
+*.ll
+*.s
+*.opt.yaml
+
+# --- 包管理工具 ---
+/conanbuildinfo.cmake
+/conaninfo.txt
+
+# --- 日志文件 ---
+*.log
+/compile_commands.json

@@ -1,0 +1,14 @@
+/Users/yunxiang/Desktop/Nexus/llvm_mlir_practice/build/CMakeFiles/intrinsics_gen.dir
+/Users/yunxiang/Desktop/Nexus/llvm_mlir_practice/build/CMakeFiles/vt_gen.dir
+/Users/yunxiang/Desktop/Nexus/llvm_mlir_practice/build/CMakeFiles/omp_gen.dir
+/Users/yunxiang/Desktop/Nexus/llvm_mlir_practice/build/CMakeFiles/acc_gen.dir
+/Users/yunxiang/Desktop/Nexus/llvm_mlir_practice/build/CMakeFiles/ARMTargetParserTableGen.dir
+/Users/yunxiang/Desktop/Nexus/llvm_mlir_practice/build/CMakeFiles/AArch64TargetParserTableGen.dir
+/Users/yunxiang/Desktop/Nexus/llvm_mlir_practice/build/CMakeFiles/RISCVTargetParserTableGen.dir
+/Users/yunxiang/Desktop/Nexus/llvm_mlir_practice/build/CMakeFiles/mlir-tablegen-targets.dir
+/Users/yunxiang/Desktop/Nexus/llvm_mlir_practice/build/CMakeFiles/mlir-headers.dir
+/Users/yunxiang/Desktop/Nexus/llvm_mlir_practice/build/CMakeFiles/mlir-generic-headers.dir
+/Users/yunxiang/Desktop/Nexus/llvm_mlir_practice/build/CMakeFiles/mlir-doc.dir
+/Users/yunxiang/Desktop/Nexus/llvm_mlir_practice/build/CMakeFiles/mlir_hello.dir
+/Users/yunxiang/Desktop/Nexus/llvm_mlir_practice/build/CMakeFiles/edit_cache.dir
+/Users/yunxiang/Desktop/Nexus/llvm_mlir_practice/build/CMakeFiles/rebuild_cache.dir
